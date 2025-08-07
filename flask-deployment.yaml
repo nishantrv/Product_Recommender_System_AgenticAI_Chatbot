@@ -4,31 +4,30 @@ metadata:
   name: flask-app
   labels:
     app: flask
-  spec:
-    replicas: 1
-    selector: 
-      matchLabels: 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
         app: flask
-    template:
-      metadata:
-        labels:
-          app: flask
-      spec:
-        containers:
-        - name: flask-container
-          image: flask-app:latest
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 5000
-          envFrom:
-            - secretRef:
-                name: llmops-secrets
-
+    spec:
+      containers:
+      - name: flask-container
+        image: flask-app:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5000
+        envFrom:
+          - secretRef:
+              name: llmops-secrets
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-service 
+  name: flask-service
 spec:
   type: LoadBalancer
   selector:
